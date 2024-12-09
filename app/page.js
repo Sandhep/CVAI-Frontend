@@ -1,5 +1,7 @@
 import CVUploader from '@/components/cv-uploader'
+import HorizontalCard from '@/components/HorizontalCard'
 import JDUploader from '@/components/jd-uploader'
+import InputCard from '@/components/top-n-inputcard'
 
 export default function Home() {
   return (
@@ -8,6 +10,12 @@ export default function Home() {
       <div className="grid md:grid-cols-2 gap-8">
         <CVUploader />
         <JDUploader />
+      </div>
+      <div className="my-5"> {/* Added margin and max width */}
+        <HorizontalCard />
+      </div>
+      <div className="my-5"> {/* Added margin for spacing */}
+        <InputCard/>
       </div>
     </main>
   )
