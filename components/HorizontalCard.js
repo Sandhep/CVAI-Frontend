@@ -3,10 +3,10 @@
 import React, { useState } from 'react';
 
 const models = [
-  { id: 1, name: 'Model A' },
-  { id: 2, name: 'Model B' },
-  { id: 3, name: 'Model C' },
-  { id: 4, name: 'Model D' },
+  { id: 1, name: 'Cosine Similarity' },
+  { id: 2, name: 'OpenAI - Score' },
+  { id: 3, name: 'Gemini - Score' },
+  { id: 4, name: 'Claude - Score' },
 ];
 
 const HorizontalCard = () => {
