@@ -55,9 +55,10 @@ const handleCVsUpdate = (cvs) => {
         <CVUploader />
         <JDUploader />
       </div>
-      <div className="my-5">
+     {/* <div className="my-5">
         <HorizontalCard />
       </div>
+     */}
       <div className="my-5">
         <InputCard />
       </div>
