@@ -1,6 +1,8 @@
 // components/ui/HorizontalCard.js
 "use client"
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import {setModel} from '../slices/modelSlice';
 
 const models = [
   { id: 1, name: 'Cosine Similarity' },
@@ -11,9 +13,11 @@ const models = [
 
 const HorizontalCard = () => {
   const [selectedModel, setSelectedModel] = useState(null);
+  const dispatch = useDispatch();
 
-  const handleModelClick = (modelId) => {
+  const handleModelClick = (modelId,modelname) => {
     setSelectedModel(modelId);
+    dispatch(setModel(modelname));
   };
 
   return (
@@ -21,7 +25,7 @@ const HorizontalCard = () => {
       {models.map((model) => (
         <button
           key={model.id}
-          onClick={() => handleModelClick(model.id)}
+          onClick={() => handleModelClick(model.id,model.name)}
           className={`flex flex-col items-center w-full p-4 border rounded-lg cursor-pointer transition duration-200 ease-in-out ${
             selectedModel === model.id ? 'bg-blue-100 border-blue-500' : 'border-gray-200 hover:bg-gray-100'
           }`}

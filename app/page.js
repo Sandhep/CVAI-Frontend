@@ -6,8 +6,9 @@ import Navbar from '@/components/Navbar'
 import InputCard from '@/components/top-n-inputcard'
 import UploadedCVsCard from '@/components/UploadedCVsCard'
 import UploadedJDsCard from '@/components/UploadedJDsCard'
-import { useSelector} from 'react-redux';
+import { useSelector,useDispatch} from 'react-redux';
 import HorizontalCard from '@/components/HorizontalCard';
+import { setCV } from '@/slices/cvSlice';
 
 export default function Home() {
   const CVs = [
@@ -44,6 +45,7 @@ const [uploadedCVs, setUploadedCVs] = useState(CVs); // Initialize with all CVs
 const [cvTitle, setCvTitle] = useState('Uploaded CVs'); // State for the title
 
 const count = useSelector((state) => state.count.value); // Access count from the Redux store
+const cvdata = useSelector((state) => state.cv.value);
 
 const handleCVsUpdate = (cvs) => {
   setUploadedCVs(cvs); // Update the state with the new list of CVs
@@ -65,8 +67,8 @@ const handleCVsUpdate = (cvs) => {
         <InputCard />
       </div>
       <div className="grid md:grid-cols-2 gap-5">
-        <UploadedJDsCard uploadedJDs={uploadedJDs} onCVsUpdate={handleCVsUpdate} />
-        <UploadedCVsCard uploadedCVs={uploadedCVs} title={cvTitle} />
+        <UploadedJDsCard/>
+        <UploadedCVsCard/>
       </div>
     </main>
     </div>
