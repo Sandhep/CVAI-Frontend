@@ -1,12 +1,13 @@
 "use client"
 import React, { useState } from 'react';
 import CVUploader from '@/components/cv-uploader'
-import HorizontalCard from '@/components/HorizontalCard'
 import JDUploader from '@/components/jd-uploader'
 import Navbar from '@/components/Navbar'
 import InputCard from '@/components/top-n-inputcard'
 import UploadedCVsCard from '@/components/UploadedCVsCard'
 import UploadedJDsCard from '@/components/UploadedJDsCard'
+import { useSelector} from 'react-redux';
+import HorizontalCard from '@/components/HorizontalCard';
 
 export default function Home() {
   const CVs = [
@@ -42,9 +43,11 @@ const uploadedJDs = [
 const [uploadedCVs, setUploadedCVs] = useState(CVs); // Initialize with all CVs
 const [cvTitle, setCvTitle] = useState('Uploaded CVs'); // State for the title
 
+const count = useSelector((state) => state.count.value); // Access count from the Redux store
+
 const handleCVsUpdate = (cvs) => {
   setUploadedCVs(cvs); // Update the state with the new list of CVs
-  setCvTitle(`Top ${cvs[0].count} CVs matches with JD`); // Update the title when CVs are fetched
+  setCvTitle(`Top ${count} CVs matches with JD`); // Update the title when CVs are fetched
 };
 
   return (
@@ -55,10 +58,9 @@ const handleCVsUpdate = (cvs) => {
         <CVUploader />
         <JDUploader />
       </div>
-     {/* <div className="my-5">
+     <div className="my-5">
         <HorizontalCard />
       </div>
-     */}
       <div className="my-5">
         <InputCard />
       </div>
