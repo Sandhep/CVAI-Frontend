@@ -4,6 +4,7 @@ import modelReducer from '../slices/modelSlice';
 import cvReducer from '../slices/cvSlice';
 import jdReducer from '../slices/jdSlice';
 import cvtitleReducer from '../slices/cvtitleSlice';
+import authReducer from "../slices/authSlice";
 
 const store = configureStore({
   reducer: {
@@ -11,7 +12,8 @@ const store = configureStore({
     model: modelReducer,
     cv: cvReducer,
     jd: jdReducer,
-    cvtitle: cvtitleReducer
+    cvtitle: cvtitleReducer,
+    auth: authReducer,
   },
 });
 

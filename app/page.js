@@ -1,17 +1,14 @@
 "use client"
-import React, { useState } from 'react';
+import React from 'react';
 import CVUploader from '@/components/cv-uploader'
 import JDUploader from '@/components/jd-uploader'
 import Navbar from '@/components/Navbar'
 import InputCard from '@/components/top-n-inputcard'
 import UploadedCVsCard from '@/components/UploadedCVsCard'
 import UploadedJDsCard from '@/components/UploadedJDsCard'
-import { useSelector} from 'react-redux';
 import HorizontalCard from '@/components/HorizontalCard';
-import { setCV } from '@/slices/cvSlice';
 
 export default function Home() {
-  
   return (
     <div>
       <Navbar />
