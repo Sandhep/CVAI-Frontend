@@ -12,42 +12,26 @@ const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
   const [isClient, setIsClient] = useState(false);
+  const [isDropdownVisible, setIsDropdownVisible] = useState(false);
 
-  const userMenuRef = useRef(null);
   const userIconRef = useRef(null);
 
   const dispatch = useDispatch();
   const router = useRouter();
 
   const user = useSelector((state) => state.auth.user);
-
+  
   // Set isClient to true after component mounts
   useEffect(() => {
     setIsClient(true);
-
-    // Add click event listener to close dropdown when clicking outside
-    const handleClickOutside = (event) => {
-      if (
-        userMenuRef.current && 
-        !userMenuRef.current.contains(event.target) &&
-        userIconRef.current && 
-        !userIconRef.current.contains(event.target)
-      ) {
-        setIsUserMenuOpen(false);
-      }
-    };
-
-    // Add event listener
-    document.addEventListener('mousedown', handleClickOutside);
-
-    // Cleanup event listener
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
   }, []);
 
   const toggleUserMenu = () => {
     setIsUserMenuOpen(!isUserMenuOpen);
+  };
+
+  const handleDropdownToggle = () => {
+    setIsDropdownVisible(!isDropdownVisible);
   };
 
   const handleLogout = async () => {
@@ -61,10 +45,10 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="bg-white shadow-md border-b border-gray-200 w-full">
+    <nav className="bg-white shadow-md border-b border-gray-300 w-full">
       <div className="max-w-screen-xl mx-auto px-4 py-4 flex justify-between items-center">
         {/* Logo */}
-        <h1 className="text-2xl font-extrabold text-gray-800">
+        <h1 className="text-2xl font-bold text-gray-800">
           <Link href="/">CV Matcher</Link>
         </h1>
 
@@ -75,8 +59,10 @@ const Navbar = () => {
               <div className="relative">
                 <button
                   ref={userIconRef}
-                  onClick={toggleUserMenu}
+                  onClick={handleDropdownToggle}
                   className="flex items-center focus:outline-none"
+                  aria-haspopup="true"
+                  aria-expanded={isDropdownVisible}
                 >
                   <img
                     src={user.photoURL || "/default-avatar.png"}
@@ -84,10 +70,10 @@ const Navbar = () => {
                     className="w-10 h-10 rounded-full border border-gray-300"
                   />
                 </button>
-                {isUserMenuOpen && (
-                  <div 
-                    ref={userMenuRef}
-                    className="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded shadow-lg"
+                {isDropdownVisible && (
+                  <div
+                    className="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded shadow-lg transition-opacity duration-200 ease-in-out"
+                    onMouseLeave={() => setIsDropdownVisible(false)}
                   >
                     <Link
                       href="/profile"
@@ -121,8 +107,7 @@ const Navbar = () => {
               </>
             )
           ) : (
-            // Placeholder during hydration to prevent layout shift
-            <div/>
+            <div />
           )}
         </div>
 
@@ -155,8 +140,7 @@ const Navbar = () => {
 
           {/* Dropdown Menu for Mobile */}
           {isUserMenuOpen && user && (
-            <div 
-              ref={userMenuRef}
+            <div
               className="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded shadow-lg"
             >
               <Link
