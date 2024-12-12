@@ -45,7 +45,7 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="bg-white shadow-md border-b border-gray-300 w-full">
+    <nav className="bg-white shadow-lg border-b border-gray-300 w-full">
       <div className="max-w-screen-xl mx-auto px-4 py-4 flex justify-between items-center">
         {/* Logo */}
         <h1 className="text-2xl font-bold text-gray-800">
@@ -64,11 +64,28 @@ const Navbar = () => {
                   aria-haspopup="true"
                   aria-expanded={isDropdownVisible}
                 >
-                  <img
-                    src={user.photoURL || "/default-avatar.png"}
-                    alt="User Avatar"
-                    className="w-10 h-10 rounded-full border border-gray-300"
-                  />
+                  {user.photoURL ? (
+                    <img
+                      src={user.photoURL}
+                      alt="User Avatar"
+                      className="w-10 h-10 rounded-full border border-gray-300"
+                    />
+                  ) : (
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 64 64"
+                      width="64"
+                      height="64"
+                      fill="currentColor"
+                      className="w-10 h-10 rounded-full"
+                    >
+                      <circle cx="32" cy="32" r="32" fill="#ccc" />
+                      <path
+                        d="M32 36c-8.837 0-16 7.163-16 16v4h32v-4c0-8.837-7.163-16-16-16zm0-4c8.837 0 16-7.163 16-16S40.837 0 32 0 16 7.163 16 16s7.163 16 16 16z"
+                        fill="#fff"
+                      />
+                    </svg>
+                  )}
                 </button>
                 {isDropdownVisible && (
                   <div
@@ -120,11 +137,28 @@ const Navbar = () => {
                 onClick={toggleUserMenu}
                 className="flex items-center focus:outline-none"
               >
-                <img
-                  src={user.photoURL || "/default-avatar.png"}
-                  alt="User Avatar"
-                  className="w-10 h-10 rounded-full border border-gray-300"
-                />
+                {user.photoURL ? (
+                  <img
+                    src={user.photoURL}
+                    alt="User Avatar"
+                    className="w-10 h-10 rounded-full border border-gray-300"
+                  />
+                ) : (
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 64 64"
+                    width="64"
+                    height="64"
+                    fill="currentColor"
+                    className="w-10 h-10 rounded-full"
+                  >
+                    <circle cx="32" cy="32" r="32" fill="#ccc" />
+                    <path
+                      d="M32 36c-8.837 0-16 7.163-16 16v4h32v-4c0-8.837-7.163-16-16-16zm0-4c8.837 0 16-7.163 16-16S40.837 0 32 0 16 7.163 16 16s7.163 16 16 16z"
+                      fill="#fff"
+                    />
+                  </svg>
+                )}
               </button>
             ) : (
               <Link
