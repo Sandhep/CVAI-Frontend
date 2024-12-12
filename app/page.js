@@ -12,7 +12,7 @@ export default function Home() {
   return (
     <div>
       <Navbar />
-    <main className="container mx-auto px-4 py-5">
+    <main className="container mx-auto px-10 py-5">
       <div className="grid md:grid-cols-2 gap-5">
         <CVUploader />
         <JDUploader />
