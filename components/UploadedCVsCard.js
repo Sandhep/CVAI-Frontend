@@ -2,21 +2,7 @@ import React, { useState,useEffect} from 'react';
 import { useSelector,useDispatch} from 'react-redux';
 import CV from './CV';
 import { setCV } from '@/slices/cvSlice';
-
-const UploadedCVs = [
-  { id: 1, name: 'Resume_Alice.pdf', summary: 'Experienced software developer with a strong background in building scalable applications.', link: 'https://www.google.com' },
-  { id: 2, name: 'Resume_Bob.docx', summary: 'Creative designer with expertise in UI/UX design.', link: 'https://www.google.com' },
-  { id: 3, name: 'Resume_Charlie.pdf', summary: 'Data analyst with proficiency in Python and SQL, focused on turning data into actionable insights.', link: 'https://www.google.com' },
-  { id: 4, name: 'Resume_Danielle.docx', summary: 'Marketing strategist skilled in SEO, content creation, and brand development.', link: 'https://www.google.com' },
-  { id: 5, name: 'Resume_Ethan.pdf', summary: 'Cybersecurity specialist with experience in network security and ethical hacking.', link: 'https://www.google.com' },
-  { id: 6, name: 'Resume_Fiona.docx', summary: 'Project manager adept at Agile methodologies and leading cross-functional teams.', link: 'https://www.google.com' },
-  { id: 7, name: 'Resume_George.pdf', summary: 'Machine learning engineer with expertise in neural networks and natural language processing.', link: 'https://www.google.com' },
-  { id: 8, name: 'Resume_Hannah.docx', summary: 'Financial analyst with a strong background in budgeting and forecasting.', link: 'https://www.google.com' },
-  { id: 9, name: 'Resume_Ian.pdf', summary: 'Cloud architect experienced in AWS and Azure with a focus on scalable infrastructure.', link: 'https://www.google.com' },
-  { id: 10, name: 'Resume_Julia.docx', summary: 'Content writer specializing in technical documentation and creative storytelling.', link: 'https://www.google.com' },
-  { id: 11, name: 'Resume_Kevin.pdf', summary: 'Software tester with expertise in automated testing and QA methodologies.', link: 'https://www.google.com' },
-  { id: 12, name: 'Resume_Lucy.docx', summary: 'Graphic designer skilled in Adobe Creative Suite and visual branding.', link: 'https://www.google.com' }
-];
+import axios from 'axios';
 
 const UploadedCVsCard = () => {
   const [searchQuery, setSearchQuery] = useState('');
@@ -29,8 +15,20 @@ const UploadedCVsCard = () => {
   };
 
   useEffect(()=>{
-     dispatch(setCV(UploadedCVs));
-  },[]);
+    axios.get(`${process.env.NEXT_PUBLIC_APP_SERVER_URL}/user-cvs`)
+    .then(function (response) {
+      // handle success
+      console.log(response.data);
+      dispatch(setCV(response.data));
+    })
+    .catch(function (error) {
+      // handle error
+      console.log(error);
+    })
+    .finally(function () {
+      // always executed
+    });
+  },[axios]);
 
   const cvdata = useSelector((state)=> state.cv.value);
   
@@ -55,9 +53,8 @@ const UploadedCVsCard = () => {
             <CV 
               key={index} 
               summary={cv.summary}
-              cvLink={cv.link}
+              cvLink={cv.url}
               filename={cv.name}
-              id={cv.id}
               score={cv.score ? cv.score : null}
             />
           ))}
