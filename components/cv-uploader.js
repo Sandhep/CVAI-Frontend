@@ -1,4 +1,5 @@
 'use client'
+import axios from 'axios'
 
 import { useState } from 'react'
 
@@ -11,16 +12,27 @@ export default function CVUploader() {
     }
   }
 
-  const handleUpload = () => {
+  const handleUpload = async () => {
     if (files.length > 0) {
-      // Here you would typically send the files to your server
-      console.log('Uploading CVs:', files.map(f => f.name).join(', '))
-      // For demonstration, we'll just log the file details
+      const formData = new FormData();
+
+      // Append each file to the FormData object
       files.forEach(file => {
-        console.log('File name:', file.name)
-        console.log('File size:', file.size, 'bytes')
-        console.log('File type:', file.type)
-      })
+        formData.append('files', file); // "files" matches the API's expected form-data key
+      });
+
+      try {
+        // Replace the URL with your actual server endpoint
+        const response = await axios.post(`${process.env.NEXT_PUBLIC_APP_SERVER_URL}/upload-cvs`, formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          }
+        });
+
+        console.log('Uploaded CVs:', response.data.uploaded_CVs);
+      } catch (error) {
+        console.error('Error uploading CVs:', error);
+      }
     }
   }
 

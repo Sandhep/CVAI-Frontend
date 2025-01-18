@@ -5,8 +5,9 @@ import { useSelector, useDispatch } from 'react-redux';
 import { setCV } from '@/slices/cvSlice';
 import { setCVtitle } from '@/slices/cvtitleSlice';
 import AlertCard from "./AlertCard"; // Import the AlertCard component
+import axios from 'axios';
 
-const JD = ({ summary, jdLink, filename, id }) => {
+const JD = ({ summary, jdLink, filename}) => {
 
   const displayName = filename.replace(/\.[^/.]+$/, "");
   const [alert, setAlert] = useState(null); // Manage alert visibility
@@ -25,34 +26,28 @@ const JD = ({ summary, jdLink, filename, id }) => {
       return;
     }
 
-    const CV = [ 
-      { id: 12, name: 'Resume_Lucy.docx', summary: 'Graphic designer skilled in Adobe Creative Suite and visual branding.', link: 'https://www.google.com', score: 1 },
-      { id: 11, name: 'Resume_Kevin.pdf', summary: 'Software tester with expertise in automated testing and QA methodologies.', link: 'https://www.google.com', score: 0.91 },
-      { id: 10, name: 'Resume_Julia.docx', summary: 'Content writer specializing in technical documentation and creative storytelling.', link: 'https://www.google.com', score: 0.82 },
-      { id: 9, name: 'Resume_Ian.pdf', summary: 'Cloud architect experienced in AWS and Azure with a focus on scalable infrastructure.', link: 'https://www.google.com', score: 0.73 },
-      { id: 8, name: 'Resume_Hannah.docx', summary: 'Financial analyst with a strong background in budgeting and forecasting.', link: 'https://www.google.com', score: 0.64 },
-      { id: 7, name: 'Resume_George.pdf', summary: 'Machine learning engineer with expertise in neural networks and natural language processing.', link: 'https://www.google.com', score: 0.55 },
-      { id: 6, name: 'Resume_Fiona.docx', summary: 'Project manager adept at Agile methodologies and leading cross-functional teams.', link: 'https://www.google.com', score: 0.45 },
-      { id: 5, name: 'Resume_Ethan.pdf', summary: 'Cybersecurity specialist with experience in network security and ethical hacking.', link: 'https://www.google.com', score: 0.36 },
-      { id: 4, name: 'Resume_Danielle.docx', summary: 'Marketing strategist skilled in SEO, content creation, and brand development.', link: 'https://www.google.com', score: 0.27 },
-      { id: 3, name: 'Resume_Charlie.pdf', summary: 'Data analyst with proficiency in Python and SQL, focused on turning data into actionable insights.', link: 'https://www.google.com', score: 0.18 },
-      { id: 2, name: 'Resume_Bob.docx', summary: 'Creative designer with expertise in UI/UX design.', link: 'https://www.google.com', score: 0.09 },
-      { id: 1, name: 'Resume_Alice.pdf', summary: 'Experienced software developer with a strong background in building scalable applications.', link: 'https://www.google.com', score: 0 }
-    ];
-
     const req = {
-      jd_id: id,
-      jd_name: displayName,
-      selected_model: modelname,
-      cv_count: count
+      "selected_jd": displayName,
+      "top_n":count,
+      "model": modelname,
     };
 
-    console.log(req);
+    axios.post(`${process.env.NEXT_PUBLIC_APP_SERVER_URL}/find-match`, req)
+    .then(function (response) {
+      console.log(response.data.matches);
+      dispatch(setCVtitle(`Top ${count} CVs matches with ${displayName}`));
+      dispatch(setCV(response.data.matches));
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
 
-    const selectedCVs = CV.slice(0, count);
+    //console.log(req);
 
-    dispatch(setCV(selectedCVs));
-    dispatch(setCVtitle(`Top ${count} CVs matches with ${displayName}`));
+   // const selectedCVs = CV.slice(0, count);
+
+   // dispatch(setCV(selectedCVs));
+   //dispatch(setCVtitle(`Top ${count} CVs matches with ${displayName}`));
   };
 
   return (

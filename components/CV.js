@@ -11,7 +11,7 @@ const CV = ({ summary, cvLink, filename, score }) => {
       <p className="text-gray-700 mb-4">{summary}</p>
       <div className="flex justify-between items-center">
         <Link href={cvLink} target="_blank" className="text-blue-500 hover:underline">View CV</Link>
-        {score !== null ? <p className="text-gray-800"> score : {score} </p> : ''}
+        {score !== null ? <p className="text-gray-800"> score : {parseFloat(score.toFixed(3))} </p> : ''}
       </div>
     </div>
   );
