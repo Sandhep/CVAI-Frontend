@@ -4,7 +4,7 @@ export function middleware(req) {
   const url = req.nextUrl;
 
   // Skip handling for static files, API routes, and specific paths
-  if (url.pathname.startsWith('/_next') || url.pathname.startsWith('/api') || url.pathname.startsWith('/public') ) {
+  if (url.pathname.startsWith('/_next') || url.pathname.startsWith('/public') ) {
     return NextResponse.next();
   }
 

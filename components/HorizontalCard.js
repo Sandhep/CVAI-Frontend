@@ -6,9 +6,9 @@ import {setModel} from '../slices/modelSlice';
 
 const models = [
   { id: 1, name: 'Cosine Similarity' },
-  { id: 2, name: 'OpenAI - Score' },
-  { id: 3, name: 'Gemini - Score' },
-  { id: 4, name: 'Claude - Score' },
+  { id: 2, name: 'OpenAI-Score' },
+  { id: 3, name: 'Gemini-Score' },
+  { id: 4, name: 'Claude-Score' },
 ];
 
 const HorizontalCard = () => {
