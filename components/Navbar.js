@@ -54,6 +54,7 @@ const Navbar = () => {
 
   const userIconRef = useRef(null)
   const dropdownRef = useRef(null)
+  const mobileMenuRef = useRef(null)
 
   const dispatch = useDispatch()
   const router = useRouter()
@@ -63,6 +64,36 @@ const Navbar = () => {
   useEffect(() => {
     setIsClient(true)
   }, [])
+
+  // Add click outside handler
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      // Handle desktop dropdown
+      if (
+        isDropdownVisible &&
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target) &&
+        !userIconRef.current.contains(event.target)
+      ) {
+        setIsDropdownVisible(false)
+      }
+
+      // Handle mobile menu
+      if (
+        isUserMenuOpen &&
+        mobileMenuRef.current &&
+        !mobileMenuRef.current.contains(event.target) &&
+        !userIconRef.current.contains(event.target)
+      ) {
+        setIsUserMenuOpen(false)
+      }
+    }
+
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside)
+    }
+  }, [isDropdownVisible, isUserMenuOpen])
 
   useFocusTrap(dropdownRef, isDropdownVisible)
 
@@ -116,7 +147,6 @@ const Navbar = () => {
                   <div
                     ref={dropdownRef}
                     className="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded shadow-lg transition-opacity duration-200 ease-in-out"
-                    onMouseLeave={() => setIsDropdownVisible(false)}
                   >
                     <Link href="/profile" className="flex items-center px-4 py-2 text-gray-700 hover:bg-gray-100">
                       <UserCircle className="mr-2" size={18} />
@@ -171,7 +201,10 @@ const Navbar = () => {
           )}
 
           {isUserMenuOpen && user && (
-            <div className="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded shadow-lg">
+            <div 
+              ref={mobileMenuRef}
+              className="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded shadow-lg"
+            >
               <Link href="/profile" className="flex items-center px-4 py-2 text-gray-700 hover:bg-gray-100">
                 <UserCircle className="mr-2" size={18} />
                 Profile
@@ -208,4 +241,3 @@ const Navbar = () => {
 }
 
 export default Navbar
-
